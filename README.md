@@ -1,4 +1,4 @@
-# qb-ambulancejob
+# qb-ambulancejob-redesign
 EMS Job and Death/Wound Logic for QB-Core Framework :ambulance:
 
 ## Dependencies
@@ -8,7 +8,7 @@ EMS Job and Death/Wound Logic for QB-Core Framework :ambulance:
 - [PolyZone](https://github.com/mkafrin/PolyZone) (Required)
 
 # Server.cfg Convar Update
-- Global DrawTextUi Option
+- Global UI Option
 ```
 setr UseTarget false
 ``` 
@@ -17,6 +17,11 @@ setr UseTarget false
 ```
 setr UseTarget true
 ```
+![image](https://github.com/user-attachments/assets/8e8b4266-1454-4c22-85d4-08a6d536b629)
+![image](https://github.com/user-attachments/assets/11f54bd3-60bc-4bd7-8208-18625adb8216)
+![image](https://github.com/user-attachments/assets/0243f6c8-9534-4246-a9ff-d5192e8181ac)
+![image](https://github.com/user-attachments/assets/55b76996-38ca-417d-a544-9bad872f7756)
+![image](https://github.com/user-attachments/assets/4647d9b5-de20-4aac-9e99-bf49ea2c7a92)
 
 
 # License
