@@ -1,14 +1,38 @@
-# qb-ambulancejob-redesign
+# qb-ambulancejob
+EMS Job and Death/Wound Logic for QB-Core Framework :ambulance:
 
-Hello everyone,
-I've created a custom UI for qb-ambulancejob!
-The design is clean and modern, and I’ve also added a few extra features to help maintain and display your status more effectively.
-Here are some preview images of the UI:
+## Dependencies
+- [qb-core](https://github.com/qbcore-framework/qb-core) (Required)
+- [qb-phone](https://github.com/qbcore-framework/qb-phone) (Required)
+- [qb-target](https://github.com/BerkieBb/qb-target) (Optional)
+- [PolyZone](https://github.com/mkafrin/PolyZone) (Required)
+
+# Server.cfg Convar Update
+- Global DrawTextUi Option
+```
+setr UseTarget false
+``` 
+
+- Global Target Option
+```
+setr UseTarget true
+```
 
 
-![image](https://github.com/user-attachments/assets/eea4cab0-63b5-4b2f-8dc4-f941dc1d58c5)
-![image](https://github.com/user-attachments/assets/67b1a912-45aa-4c19-b166-2d7882b1adf2)
-![image](https://github.com/user-attachments/assets/a12dc2b2-2bb2-4a8d-b9e6-12cbd41eaba8)
-![image](https://github.com/user-attachments/assets/2459df27-dad1-497f-81bd-3d761d2b8e56)
-![image](https://github.com/user-attachments/assets/315d03b9-0712-4fcf-9737-45825aa960da)
+# License
 
+    QBCore Framework
+    Copyright (C) 2021 Joshua Eger
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
