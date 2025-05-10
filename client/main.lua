@@ -619,6 +619,12 @@ RegisterNetEvent('hospital:client:SendToBed', function(id, data, isRevive)
     bedOccupying = id
     bedOccupyingData = data
     SetBedCam()
+    
+    -- Hide critical UI when in bed
+    SendNUIMessage({
+        action = 'hide'
+    })
+    
     CreateThread(function()
         Wait(5)
         if isRevive then
