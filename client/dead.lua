@@ -149,65 +149,6 @@ CreateThread(function()
             EnableControlAction(0, 249, true)
             EnableControlAction(0, 46, true)
             EnableControlAction(0, 47, true)
-
-            if isDead then
-                if not isInHospitalBed then
-                    if deathTime > 0 then
-                        DrawTxt(0.93, 1.44, 1.0, 1.0, 0.6, Lang:t('info.respawn_txt', { deathtime = math.ceil(deathTime) }), 255, 255, 255, 255)
-                    else
-                        DrawTxt(0.865, 1.44, 1.0, 1.0, 0.6, Lang:t('info.respawn_revive', { holdtime = hold, cost = Config.BillCost }), 255, 255, 255, 255)
-                    end
-                end
-
-                if IsPedInAnyVehicle(ped, false) then
-                    loadAnimDict('veh@low@front_ps@idle_duck')
-                    if not IsEntityPlayingAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 3) then
-                        TaskPlayAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 1.0, 1.0, -1, 1, 0, 0, 0, 0)
-                    end
-                else
-                    if isInHospitalBed then
-                        if not IsEntityPlayingAnim(ped, inBedDict, inBedAnim, 3) then
-                            loadAnimDict(inBedDict)
-                            TaskPlayAnim(ped, inBedDict, inBedAnim, 1.0, 1.0, -1, 1, 0, 0, 0, 0)
-                        end
-                    else
-                        if not IsEntityPlayingAnim(ped, deadAnimDict, deadAnim, 3) then
-                            loadAnimDict(deadAnimDict)
-                            TaskPlayAnim(ped, deadAnimDict, deadAnim, 1.0, 1.0, -1, 1, 0, 0, 0, 0)
-                        end
-                    end
-                end
-
-                SetCurrentPedWeapon(ped, `WEAPON_UNARMED`, true)
-            elseif InLaststand then
-                sleep = 5
-
-                if not isEscorted then
-                    if IsPedInAnyVehicle(ped, false) then
-                        loadAnimDict('veh@low@front_ps@idle_duck')
-                        if not IsEntityPlayingAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 3) then
-                            TaskPlayAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 1.0, 1.0, -1, 1, 0, 0, 0, 0)
-                        end
-                    else
-                        loadAnimDict(lastStandDict)
-                        if not IsEntityPlayingAnim(ped, lastStandDict, lastStandAnim, 3) then
-                            TaskPlayAnim(ped, lastStandDict, lastStandAnim, 1.0, 1.0, -1, 1, 0, 0, 0, 0)
-                        end
-                    end
-                else
-                    if IsPedInAnyVehicle(ped, false) then
-                        loadAnimDict('veh@low@front_ps@idle_duck')
-                        if IsEntityPlayingAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 3) then
-                            StopAnimTask(ped, 'veh@low@front_ps@idle_duck', 'sit', 3)
-                        end
-                    else
-                        loadAnimDict(lastStandDict)
-                        if IsEntityPlayingAnim(ped, lastStandDict, lastStandAnim, 3) then
-                            StopAnimTask(ped, lastStandDict, lastStandAnim, 3)
-                        end
-                    end
-                end
-            end
         end
         Wait(sleep)
     end

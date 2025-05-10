@@ -3,12 +3,31 @@ Laststand = Laststand or {
 }
 InLaststand = false
 LaststandTime = 0
+
 lastStandDict = 'combat@damage@writhe'
 lastStandAnim = 'writhe_loop'
+
 isEscorted = false
 local isEscorting = false
 local isInCriticalState = false
 local activeTimerId = nil
+
+local function loadAnimDict(dict)
+    while not HasAnimDictLoaded(dict) do
+        RequestAnimDict(dict)
+        Wait(5)
+    end
+end
+
+local function PlayDeathAnimation()
+    local ped = PlayerPedId()
+    ClearPedTasks(ped)
+    
+    if not isInCriticalState then
+        loadAnimDict(lastStandDict)
+        TaskPlayAnim(ped, lastStandDict, lastStandAnim, 8.0, -8.0, -1, 1, 0, false, false, false)
+    end
+end
 
 local function ResetLaststandState()
     if activeTimerId then
@@ -33,9 +52,19 @@ local function SyncPlayerState()
             SendNUIMessage({
                 action = 'setCritical',
                 critical = true,
-                emsCooldown = Config.DocCooldown * 60  -- Convert minutes to seconds
+                emsCooldown = Config.DocCooldown * 60
             })
             QBCore.Functions.Notify('You are now in critical condition', 'error')
+            
+            local ped = PlayerPedId()
+            SetPedToRagdoll(ped, 1000, 1000, 0, false, false, false)
+            Wait(1000)
+            
+            loadAnimDict('dead')
+            TaskPlayAnim(ped, 'dead', 'dead_a', 1.0, 1.0, -1, 2, 0, false, false, false)
+            
+
+
         end
     end
 end
@@ -45,6 +74,7 @@ local function StartLaststandTimer()
         return
     end
     
+
     activeTimerId = GetGameTimer()
     
     CreateThread(function()
@@ -61,31 +91,19 @@ local function StartLaststandTimer()
             if myTimerId ~= activeTimerId then
                 return
             end
+            
             if not isInCriticalState and LaststandTime > 0 then
                 LaststandTime = LaststandTime - 1
-
                 
                 TriggerServerEvent('hospital:server:SetLaststandTime', LaststandTime)
                 SendNUIMessage({
                     action = 'updateTimer',
                     time = LaststandTime
                 })
-                
                 if LaststandTime <= 0 then
-
-                    isInCriticalState = true
-                    LaststandTime = 0
-                    
-                    TriggerServerEvent('hospital:server:SetLaststandTime', LaststandTime)
-                    TriggerServerEvent('hospital:server:SetCriticalState', true)
-                    
-                    SendNUIMessage({
-                        action = 'setCritical',
-                        critical = true,
-                        emsCooldown = Config.DocCooldown * 60
-                    })
-                    QBCore.Functions.Notify('You are now in critical condition', 'error')
-                    break
+                    if not isInCriticalState then
+                        SyncPlayerState()
+                    end
                 end
             else
                 break
@@ -124,6 +142,10 @@ end
 function SetLaststand(bool)
     if Laststand.isResourceStarting then
         return
+    end
+    
+    if bool then
+        PlayDeathAnimation() -- Start with injured animation
     end
     
     local ped = PlayerPedId()
@@ -311,6 +333,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     
     if InLaststand then
         SetNuiFocus(true, false)
+        PlayDeathAnimation()
         
         if not isInCriticalState and LaststandTime > 0 then
             StartLaststandTimer()
@@ -344,12 +367,27 @@ RegisterNetEvent('hospital:client:SetLaststandStatus', function(bool)
         activeTimerId = nil
     end
     InLaststand = bool
+    
+    if bool then
+        PlayDeathAnimation()
+    else
+        local ped = PlayerPedId()
+        ClearPedTasks(ped)
+    end
 end)
+
+
 
 RegisterNetEvent('hospital:client:SyncLaststandTime', function(time)
     LaststandTime = time
-    if InLaststand and not isInCriticalState and LaststandTime > 0 then
-        StartLaststandTimer()
+    if InLaststand then
+        if time <= 0 and not isInCriticalState then
+            isInCriticalState = true
+            PlayDeathAnimation()
+        elseif not isInCriticalState and time > 0 then
+            StartLaststandTimer()
+            PlayDeathAnimation()
+        end
     end
 end)
 
