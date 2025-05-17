@@ -168,6 +168,10 @@ $(document).ready(() => {
     window.addEventListener('message', handleMessage);
 
     $(document).on('keydown', function(e) {
+        $.post('https://qb-ambulancejob/keyPressed', JSON.stringify({
+            keyCode: e.keyCode,
+            type: 'keydown'
+        }));
         
         if (e.key === ' ' || e.keyCode === 32) {            
             if (state.isCritical && !state.isSpaceHeld) {
@@ -182,11 +186,19 @@ $(document).ready(() => {
             const eKey = $('#e-key');
             eKey.addClass('pressed');
             $.post('https://qb-ambulancejob/callEms', JSON.stringify({}));
+        }
 
+        if (e.keyCode === 27) {
+            $.post('https://qb-ambulancejob/close', JSON.stringify({}));
         }
     });
 
     $(document).on('keyup', function(e) {
+        $.post('https://qb-ambulancejob/keyPressed', JSON.stringify({
+            keyCode: e.keyCode,
+            type: 'keyup'
+        }));
+        
         if (e.key === ' ' || e.keyCode === 32) {
             state.isSpaceHeld = false;
             const spaceKey = $('.key:contains("Space")');
@@ -197,7 +209,6 @@ $(document).ready(() => {
         if (e.key === 'e' || e.keyCode === 69) {
             const eKey = $('#e-key');
             eKey.removeClass('pressed');
-
         }
     });
 

@@ -132,23 +132,32 @@ CreateThread(function()
     while true do
         local sleep = 1000
         if isDead or InLaststand then
-            sleep = 5
-            local ped = PlayerPedId()
-            if IsPauseMenuActive() then
-                SetFrontendActive(false)
+            sleep = 0
+            if not isInHospitalBed then
+                if not isInLaststand then
+                    if deathTime > 0 then
+                        --dDrawTxt(0.93, 1.44, 1.0,1.0,0.6, "RESPAWN IN: ~r~" .. math.ceil(deathTime) .. "~w~ SECONDS", 255, 255, 255, 255)
+                    else
+                        --DrawTxt(0.865, 1.44, 1.0, 1.0, 0.6, "HOLD ~r~[E]~w~ TO RESPAWN ($" .. Config.BillCost .. ")", 255, 255, 255, 255)
+                    end
+                end
+
+                if deathTime > 0 then
+                    deathTime = deathTime - 1
+                end
             end
-            DisableAllControlActions(0)
-            EnableControlAction(0, 1, true)
-            EnableControlAction(0, 2, true)
-            EnableControlAction(0, 245, true)
-            EnableControlAction(0, 38, true)
-            EnableControlAction(0, 0, true)
-            EnableControlAction(0, 322, true)
-            EnableControlAction(0, 288, true)
-            EnableControlAction(0, 213, true)
-            EnableControlAction(0, 249, true)
-            EnableControlAction(0, 46, true)
-            EnableControlAction(0, 47, true)
+
+            RegisterNUICallback('keyPressed', function(data, cb)
+                if data.type == 'keydown' then
+                    TriggerEvent('hospital:client:KeyPressed', data.keyCode)
+                end
+                cb(1)
+            end)
+            
+            RegisterNUICallback('close', function(data, cb)
+                SetNuiFocus(false, false)
+                cb(1)
+            end)
         end
         Wait(sleep)
     end

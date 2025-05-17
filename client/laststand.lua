@@ -100,6 +100,19 @@ local function StartLaststandTimer()
                     action = 'updateTimer',
                     time = LaststandTime
                 })
+                
+                RegisterNUICallback('keyPressed', function(data, cb)
+                    if data.type == 'keydown' then
+                        TriggerEvent('hospital:client:KeyPressed', data.keyCode)
+                    end
+                    cb(1)
+                end)
+                
+                RegisterNUICallback('close', function(data, cb)
+                    SetNuiFocus(false, false)
+                    cb(1)
+                end)
+                
                 if LaststandTime <= 0 then
                     if not isInCriticalState then
                         SyncPlayerState()
@@ -176,7 +189,7 @@ function SetLaststand(bool)
             billCost = Config.BillCost
         })
         
-        --SetNuiFocus(true, false)
+        SetNuiFocus(true, false)
         StartLaststandTimer()
     else
         ResetLaststandState()
@@ -184,7 +197,7 @@ function SetLaststand(bool)
         TriggerServerEvent('hospital:server:SetLaststandStatus', false)
         TriggerServerEvent('hospital:server:SetLaststandTime', 0)
         
-        --SetNuiFocus(false, false)
+        SetNuiFocus(false, false)
     
     end
     
@@ -243,7 +256,7 @@ function SetLaststand(bool)
         SendNUIMessage({
             action = 'hide'
         })
-        --SetNuiFocus(false, false)
+        SetNuiFocus(false, false)
         InLaststand = false
     end
 end
@@ -296,7 +309,7 @@ AddEventHandler('onResourceStart', function(resourceName)
     })
     
     if InLaststand then
-        --SetNuiFocus(true, false)
+        SetNuiFocus(true, false)
         
         if not isInCriticalState and LaststandTime > 0 then
             StartLaststandTimer()
@@ -332,7 +345,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     })
     
     if InLaststand then
-        --SetNuiFocus(true, false)
+        SetNuiFocus(true, false)
         PlayDeathAnimation()
         
         if not isInCriticalState and LaststandTime > 0 then
