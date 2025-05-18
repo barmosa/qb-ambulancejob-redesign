@@ -1,6 +1,6 @@
 Config = {}
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- Use qb-target interactions (don't change this, go to your server.cfg and add setr UseTarget true)
-Config.AllowKeybinds = "all"
+Config.AllowKeybinds = "all" -- כל המקשים יעבדו
 Config.MinimalDoctors = 2                                    -- How many players with the ambulance job to prevent the hospital check-in system from being used
 Config.FastSpawn = vector4(307.18698, -594.7686, 43.284103, 241.00886)
 Config.UseBeds = false -- If false, only FastSpawn will work

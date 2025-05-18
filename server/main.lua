@@ -436,7 +436,7 @@ QBCore.Commands.Add('revivep', Lang:t('info.revive_player'), {}, false, function
 	end
 end)
 
---[[
+
 QBCore.Commands.Add('revive', Lang:t('info.revive_player_a'), { { name = 'id', help = Lang:t('info.player_id') } }, false, function(source, args)
 	local src = source
 	if args[1] then
@@ -450,7 +450,7 @@ QBCore.Commands.Add('revive', Lang:t('info.revive_player_a'), { { name = 'id', h
 		TriggerClientEvent('hospital:client:Revive', src)
 	end
 end, 'admin')
---]]
+
 
 QBCore.Commands.Add('setpain', Lang:t('info.pain_level'), { { name = 'id', help = Lang:t('info.player_id') } }, false, function(source, args)
 	local src = source
